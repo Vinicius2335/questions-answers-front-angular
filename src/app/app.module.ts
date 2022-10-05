@@ -8,9 +8,10 @@ import { HttpClientModule } from "@angular/common/http";
 import { LoginComponent } from './components/login/login.component';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { InfoComponent } from './components/info/info.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, ProfComponent],
+  declarations: [AppComponent, LoginComponent, ProfComponent, InfoComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

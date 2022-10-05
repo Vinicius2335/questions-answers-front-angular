@@ -4,19 +4,19 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Yype': 'application/json' })
-}
+  headers: new HttpHeaders({ 'Content-Yype': 'application/json' }),
+};
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private loginUrl = 'http://localhost:8080/api/login';
   private signUpUrl = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  attemptAuth(credentials: AuthLoginInfo){
+  login(credentials: AuthLoginInfo) {
     return this.http.post<JwtResponse>(this.loginUrl, credentials, httpOptions);
   }
 

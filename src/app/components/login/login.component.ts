@@ -25,8 +25,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: NonNullableFormBuilder,
     private authService: AuthService,
-    private tokenStorageService: TokenStorageService,
-  ) { }
+    private tokenStorageService: TokenStorageService
+  ) {}
 
   ngOnInit(): void {
     if (this.tokenStorageService.getToken()) {
@@ -35,12 +35,15 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  onSubmit(){
+  onSubmit() {
     console.log(this.form);
 
-    this.loginInfo = new AuthLoginInfo(this.form.controls.username.value, this.form.controls.password.value);
+    this.loginInfo = new AuthLoginInfo(
+      this.form.controls.username.value,
+      this.form.controls.password.value
+    );
 
-    this.authService.attemptAuth(this.loginInfo).subscribe(
+    this.authService.login(this.loginInfo).subscribe(
       (data: any) => {
         this.tokenStorageService.saveToken(data.accessToken);
         this.tokenStorageService.saveUsername(data.username);
@@ -62,5 +65,4 @@ export class LoginComponent implements OnInit {
   reloadPage() {
     window.location.reload();
   }
-
 }

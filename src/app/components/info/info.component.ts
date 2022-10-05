@@ -1,12 +1,12 @@
-import { TokenStorageService } from './../../auth/token-storage.service';
 import { Component, OnInit } from '@angular/core';
+import { TokenStorageService } from 'src/app/auth/token-storage.service';
 
 @Component({
-  selector: 'app-landing-page',
-  templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.scss']
+  selector: 'app-info',
+  templateUrl: './info.component.html',
+  styleUrls: ['./info.component.scss']
 })
-export class LandingPageComponent implements OnInit {
+export class InfoComponent implements OnInit {
   info!: any;
 
   constructor(private token: TokenStorageService) { }
@@ -23,5 +23,4 @@ export class LandingPageComponent implements OnInit {
     this.token.signOut();
     window.location.reload();
   }
-
 }

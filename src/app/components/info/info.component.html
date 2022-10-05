@@ -1,0 +1,18 @@
+<div class="container">
+  <div *ngIf="info.token; else loggedOut" class="text-white">
+    <span class="badge badge-info"> Suas Informaçoes</span>
+    <hr>
+
+    <p>
+      <strong>Username:</strong>{{info.username}} <br>
+      <strong>Roles:</strong>{{info.authorities}} <br>
+      <strong>Token:</strong>{{info.token}}.
+    </p>
+
+    <button class="btn btn-secondary" (click)="logout()">Logout</button>
+  </div>
+
+  <ng-template #loggedOut class="text-white">
+    Please Login.
+  </ng-template>
+</div>
