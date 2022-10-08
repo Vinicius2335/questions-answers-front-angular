@@ -1,5 +1,5 @@
 <div class="container mt-3">
-  <form [formGroup]="form" class="rounded">
+  <form [formGroup]="form" class="d-grid gap-2 col-3 mx-auto">
     <div class="text-white mb-3">
       <h3>Login</h3>
     </div>
@@ -11,8 +11,9 @@
       <input type="password" class="form-control" id="inputPassword" placeholder="Password" formControlName="password">
       <label for="inputPassword">Password</label>
     </div>
-    <div class="d-grid gap-2 col-2 mx-auto">
-      <button type="submit" class="btn btn-primary mb-3" (click)="onSubmit()" >Entrar</button>
+    <div class="d-grid col-5 mx-auto">
+      <button type="submit" class="btn btn-primary mb-3" (click)="onLogin()">Login</button>
     </div>
   </form>
 </div>
+

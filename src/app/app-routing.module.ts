@@ -1,14 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { InfoComponent } from './components/info/info.component';
-import { LoginComponent } from './components/login/login.component';
-import { ProfComponent } from './components/prof/prof.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
-  { path: 'login', component: LoginComponent },
-  { path: 'prof', component: ProfComponent },
-  { path: 'info', component: InfoComponent },
+  { path: 'login', loadChildren: () => import('./modules/login/login.module').then(m => m.LoginModule) },
+  { path: 'professor', loadChildren: () => import('./modules/professor/professor.module').then(m => m.ProfessorModule)}
 ];
 
 @NgModule({

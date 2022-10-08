@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'angular-questions-answers'`, () => {
+  it(`should have as title 'angular-teste-jwt'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('angular-questions-answers');
+    expect(app.title).toEqual('angular-teste-jwt');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('angular-questions-answers app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('angular-teste-jwt app is running!');
   });
 });
