@@ -1,10 +1,12 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
-import { BehaviorSubject, map, Observable } from "rxjs";
-import { AuthLoginInfo } from "./models/auth-login-info";
-import { JwtDecoder } from "./models/jwt-decoder";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ToastrService } from 'ngx-toastr';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+import { AuthLoginInfo } from './models/auth-login-info';
+import { JwtDecoder } from './models/jwt-decoder';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    // private helper: HelperService, serviço para mensagem de erro / toast
+    private toastrService: ToastrService,
     private router: Router,
     private jwtService: JwtHelperService
   ) { }
@@ -38,7 +40,7 @@ export class AuthService {
       },
       error: (e) => {
         console.log(e);
-        // this.helper.alertSnack("Credenciais inválidas!"); toast de erro
+        this.toastrService.error("Credenciais inválidas!");
         AuthService.authSubject.next(false);
       }
     });
