@@ -1,3 +1,9 @@
 <div class="container text-white">
-  <h1>Professor Logado.</h1>
+  <h4>Professor Logado.</h4>
+
+  <p>
+    Username: {{ jwtDecoder.sub }} <br>
+    Roles: {{ jwtDecoder.roles }} <br>
+    Token Expiration: {{ date }} <br>
+  </p>
 </div>

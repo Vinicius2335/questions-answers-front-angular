@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -23,6 +24,7 @@ export function tokenGetter() {
     RouterModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ModalModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

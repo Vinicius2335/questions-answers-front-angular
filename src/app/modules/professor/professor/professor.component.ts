@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/security/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,8 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./professor.component.scss']
 })
 export class ProfessorComponent implements OnInit {
-
-  constructor() { }
+  jwtDecoder = this.authService.getJwtDecoder();
+  date = this.authService.getTokenDateExpiration();
+  
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
   }

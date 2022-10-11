@@ -12,14 +12,15 @@ import { JwtDecoder } from './models/jwt-decoder';
   providedIn: 'root'
 })
 export class AuthService {
-  readonly loginUrl = 'http://localhost:8080/login';
+  readonly loginUrl = 'http://localhost:8080/api/login';
   decodedToken!: JwtDecoder;
 
   private static authSubject = new BehaviorSubject<boolean>(false);
+
+  // TODO: NAO SEI PRA QUE SERVE
   private static apiSubject = new BehaviorSubject<boolean>(
     (localStorage.getItem('api') || 'local') == 'local' ? false : true
   );
-
   public api = localStorage.getItem('api') || 'local';
 
   constructor(
@@ -32,7 +33,6 @@ export class AuthService {
   login(credentials: AuthLoginInfo) {
     this.http.post(this.loginUrl, credentials, { responseType: 'text' }).subscribe({
       next: (response: string) => {
-        console.log(response);
         localStorage.setItem('token', response);
         this.decodedToken = this.jwtService.decodeToken(response);
         AuthService.authSubject.next(true);
@@ -56,6 +56,14 @@ export class AuthService {
     return this.basicAuth();
   }
 
+  getJwtDecoder(): JwtDecoder{
+    return this.decodedToken;
+  }
+
+  getTokenDateExpiration(){
+    return this.jwtService.getTokenExpirationDate();
+  }
+
   private basicAuth(): string {
     if (localStorage.getItem('token')) {
       const token = this.jwtService.tokenGetter();
@@ -73,7 +81,7 @@ export class AuthService {
     AuthService.authSubject.next(val);
   }
 
-  // TODO: NAO SEI PRA QUE SERVE
+  // Usado no guard para verificar se o usuário está logado
   static authAsObservable(): Observable<boolean> {
     return AuthService.authSubject.asObservable();
   }
