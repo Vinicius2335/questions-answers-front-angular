@@ -81,7 +81,7 @@ export class AuthService {
     AuthService.authSubject.next(val);
   }
 
-  // Usado no guard para verificar se o usuário está logado
+  // Usado no guard para verificar se o usuário está logado,
   static authAsObservable(): Observable<boolean> {
     return AuthService.authSubject.asObservable();
   }
