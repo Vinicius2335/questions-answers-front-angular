@@ -8,13 +8,13 @@
     *ngIf="courses$ |async as cursos">
       <thead>
         <h2>List Course</h2>
+
         <tr>
           <th>#</th>
           <th>Name</th>
           <th>Actions</th>
         </tr>
         </thead>
-
         <tbody class="table-group-divider">
           <tr *ngFor="let curso of cursos">
             <td scope="row">{{ curso.idCourse }}</td>
@@ -39,6 +39,11 @@
         </tbody>
     </table>
   </div>
+
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+    <button class="btn btn-success">Novo</button>
+  </div>
+
 </div>
 
 <!-- NOTE: Lembrete caso precise de um spinner na hora de carregar os dados do back para o front -->

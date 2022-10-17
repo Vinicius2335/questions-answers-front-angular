@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/security/auth.service';
 import { JwtDecoder } from './../security/models/jwt-decoder';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Component, OnInit } from '@angular/core';
@@ -8,10 +9,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(private jwtService: JwtHelperService){}
+  isLogged: boolean = false;
+
+  constructor(
+    private jwtService: JwtHelperService,
+    private authService: AuthService
+    ){}
 
   ngOnInit(): void {
+    AuthService.authAsObservable().subscribe(
+      (response) => {
+        this.isLogged = response;
+      }
+    );
+  }
 
+  onLogout(){
+    this.authService.logout();
   }
 
   // isProfessor(){

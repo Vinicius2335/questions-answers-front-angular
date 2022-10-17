@@ -52,10 +52,6 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
-  getAuthorizationToken(): string {
-    return this.basicAuth();
-  }
-
   getJwtDecoder(): JwtDecoder{
     return this.decodedToken;
   }
@@ -64,11 +60,20 @@ export class AuthService {
     return this.jwtService.getTokenExpirationDate();
   }
 
+  getAuthorizationToken(): string {
+    return this.basicAuth();
+  }
+
   private basicAuth(): string {
     if (localStorage.getItem('token')) {
       const token = this.jwtService.tokenGetter();
       return `Bearer ${token}`;
     } else return '';
+  }
+
+  // Usado no guard para verificar se o usuário está logado,
+  static authAsObservable(): Observable<boolean> {
+    return AuthService.authSubject.asObservable();
   }
 
   // TODO: NAO SEI PRA QUE SERVE
@@ -79,11 +84,6 @@ export class AuthService {
       val = localStorage.getItem('token') ? true : false;
     } else val = true;
     AuthService.authSubject.next(val);
-  }
-
-  // Usado no guard para verificar se o usuário está logado,
-  static authAsObservable(): Observable<boolean> {
-    return AuthService.authSubject.asObservable();
   }
 
   // TODO: NAO SEI PRA QUE SERVE
