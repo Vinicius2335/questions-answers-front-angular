@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
     | UrlTree {
     return AuthService.authAsObservable().pipe(
       take(1),
-      map((isLooged) => (isLooged ? true : this.router.createUrlTree([''])))
+      map((isLooged) => (isLooged ? true : this.router.createUrlTree(['/'])))
     );
   }
 }

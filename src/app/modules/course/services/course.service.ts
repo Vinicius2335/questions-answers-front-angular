@@ -7,7 +7,7 @@ import { Course } from 'src/app/util/models/courses';
   providedIn: 'root'
 })
 export class CourseService {
-  readonly API_URL = 'http://localhost:8080/api/professor/course';
+  private readonly API_URL = 'http://localhost:8080/api/professor/course';
 
   constructor(private http: HttpClient) { }
 
@@ -19,8 +19,8 @@ export class CourseService {
   }
 
   // NOTE: PAREI AKI
-  insertCourse(name: string){
-    return this.http.post(this.API_URL, name).pipe();
+  insertCourse(course: Partial<Course>){
+    return this.http.post(this.API_URL, course).pipe(first());
   }
 
 }

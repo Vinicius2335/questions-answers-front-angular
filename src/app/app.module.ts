@@ -1,3 +1,5 @@
+import { ReactiveFormsModule } from '@angular/forms';
+import { UtilModule } from './util/util.module';
 import { AppComponent } from './home/app.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -23,6 +25,8 @@ export function tokenGetter() {
     RouterModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
+    UtilModule,
     ModalModule.forRoot(),
     JwtModule.forRoot({
       config: {
