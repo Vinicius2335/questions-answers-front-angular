@@ -4,7 +4,7 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
 import { CourseService } from './../../services/course.service';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-course-form',
@@ -12,10 +12,9 @@ import { Subject } from 'rxjs';
   styleUrls: ['./course-form.component.scss']
 })
 export class CourseFormComponent implements OnInit {
+  private static dialogSubject = new BehaviorSubject<boolean>(false);
   private msgSuccess!: string;
   private msgError!: string;
-
-  // cancel$!: Subject<boolean>;
 
   form = this.formBuilder.group({
     idCourse: [0, [Validators.required]],
@@ -36,7 +35,10 @@ export class CourseFormComponent implements OnInit {
     this.courseMsg();
 
     this.courseService.insertCourse(this.form.value).subscribe({
-      next: () => this.toastr.success(this.msgSuccess),
+      next: () => {
+        this.toastr.success(this.msgSuccess);
+        CourseFormComponent.dialogSubject.next(true);
+      },
       error: () => this.toastr.error(this.msgError),
       complete: () => this.bsModalRef?.hide()
     });
@@ -54,6 +56,10 @@ export class CourseFormComponent implements OnInit {
       this.msgSuccess = 'Curso Atualizado com Sucesso!';
       this.msgError = 'Erro ao Atualizar Curso, Tente Novamente!';
     }
+  }
+
+  static authAsObservable(): Observable<boolean> {
+    return this.dialogSubject.asObservable();
   }
 
 }

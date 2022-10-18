@@ -20,7 +20,11 @@ export class CourseService {
 
   // NOTE: PAREI AKI
   insertCourse(course: Partial<Course>){
-    return this.http.post(this.API_URL, course).pipe(first());
+    return this.http.post(this.API_URL, {name: course.name}).pipe(first());
+  }
+
+  findById(id: number){
+    return this.http.get<Course>(`${this.API_URL}/${id}`).pipe(first());
   }
 
 }

@@ -9,7 +9,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'app-course',
   templateUrl: './course.component.html',
-  styleUrls: ['./course.component.scss']
+  styleUrls: ['./course.component.scss'],
 })
 export class CourseComponent implements OnInit {
   courses$!: Observable<Course[]>;
@@ -19,17 +19,24 @@ export class CourseComponent implements OnInit {
   modalRef?: BsModalRef;
   @ViewChild('loading') spinner!: TemplateRef<any>;
 
-  @ViewChild('insert') modalSaved!: TemplateRef<any>;
-
   constructor(
     private courseService: CourseService,
     private toaster: ToastrService,
     private modalService: BsModalService
-    ) {
-      this.refresh();
+  ) {
+    this.refresh();
+
+    // atualiza a lista de cursos apos salvar/atualizar curso for um sucesso
+    CourseFormComponent.authAsObservable().subscribe(
+      (isSavedSuccessful: boolean) => {
+        if (isSavedSuccessful) {
+          this.refresh();
+        }
+      }
+    );
   }
 
-  refresh(){
+  refresh() {
     this.courses$ = this.courseService.getListCourse().pipe(
       catchError(() => {
         this.modalRef?.hide();
@@ -40,19 +47,19 @@ export class CourseComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   openModal() {
-    this.modalRef = this.modalService.show(this.spinner, Object.assign({}, { class: 'modal-sm' }));
+    this.modalRef = this.modalService.show(
+      this.spinner,
+      Object.assign({}, { class: 'modal-sm' })
+    );
   }
 
-  onNew(){
-    this.modalRef = this.modalService.show(CourseFormComponent, Object.assign({}));
+  onNew() {
+    this.modalRef = this.modalService.show(
+      CourseFormComponent,
+      Object.assign({})
+    );
   }
-
-  onCancel(){
-    this.modalRef?.hide();
-  }
-
 }

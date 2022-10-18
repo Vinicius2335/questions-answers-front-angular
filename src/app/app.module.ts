@@ -35,11 +35,9 @@ export function tokenGetter() {
       },
     }),
     ToastrModule.forRoot({
-      closeButton: true,
-      disableTimeOut: true,
       positionClass: 'toast-top-center',
-      tapToDismiss: false,
       preventDuplicates: true,
+      progressBar: true,
     }),
   ],
   providers: [
