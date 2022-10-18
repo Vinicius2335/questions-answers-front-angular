@@ -1,11 +1,13 @@
-import { CourseFormComponent } from './../components/course-form/course-form.component';
-import { catchError, EMPTY, Observable, of, Subject } from 'rxjs';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { CourseService } from '../services/course.service';
-import { ToastrService } from 'ngx-toastr';
-import { Course } from 'src/app/util/models/courses';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
-import { CourseFormService } from '../components/course-form/services/course-form.service';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, EMPTY, Observable, Subject } from 'rxjs';
+import { Course } from 'src/app/util/models/courses';
+
+import { CourseService } from '../services/course.service';
+import { ConfirmDeleteComponent } from './../../../util/components/confirm-delete/confirm-delete.component';
+import { ConfirmDeleteService } from './../../../util/components/confirm-delete/services/confirm-delete.service';
+import { CourseFormComponent } from './../components/course-form/course-form.component';
 
 @Component({
   selector: 'app-course',
@@ -24,7 +26,7 @@ export class CourseComponent implements OnInit {
     private courseService: CourseService,
     private toaster: ToastrService,
     private modalService: BsModalService,
-    private courseFormService: CourseFormService
+    private confirmDeleteService: ConfirmDeleteService
   ) {
     this.refresh();
 
@@ -36,6 +38,14 @@ export class CourseComponent implements OnInit {
         }
       }
     );
+
+    ConfirmDeleteComponent.authAsObservable().subscribe(
+      (isDeleteConfirm: boolean) => {
+        if (isDeleteConfirm) {
+          this.refresh();
+        }
+      }
+    );
   }
 
   refresh() {
@@ -43,7 +53,7 @@ export class CourseComponent implements OnInit {
       catchError(() => {
         this.modalRef?.hide();
         this.error$.next(true);
-        this.toaster.error('Não foi possivel carregar a lista de Courses');
+        this.toaster.error('Unable to load the courses list');
         return EMPTY;
       })
     );
@@ -65,16 +75,23 @@ export class CourseComponent implements OnInit {
     );
   }
 
-  onEdit(course: Course){
-    const initialState:  ModalOptions = {
+  onEdit(course: Course) {
+    const initialState: ModalOptions = {
       initialState: {
-        course: course
-      }
-    }
-    // this.courseFormService.showSaveDialog(initialState);
-    this.modalRef = this.modalService.show(
-      CourseFormComponent,
-      initialState
-    );
+        course: course,
+      },
+    };
+    this.modalRef = this.modalService.show(CourseFormComponent, initialState);
   }
+
+  onDelete(course: Course){
+    const initialState: ModalOptions = {
+      initialState: {
+        course: course,
+        class: 'modal-sm'
+      },
+    };
+    this.confirmDeleteService.showConfirmDialog(initialState);
+  }
+
 }

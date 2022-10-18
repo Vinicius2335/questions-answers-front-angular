@@ -4,8 +4,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Course } from 'src/app/util/models/courses';
+import { CourseService } from '../../services/course.service';
 
-import { CourseService } from './../../services/course.service';
 
 @Component({
   selector: 'app-course-form',
@@ -59,12 +59,12 @@ export class CourseFormComponent implements OnInit {
   }
 
   courseMsg() {
-    this.msgSuccess = 'Curso Salvo com Sucesso!';
-    this.msgError = 'Erro ao Salvar Curso, Tente Novamente!';
+    this.msgSuccess = 'Successfully Saved Course!';
+    this.msgError = 'Error Saving Course, Try Again!';
 
     if (this.form.value.idCourse != 0) {
-      this.msgSuccess = 'Curso Atualizado com Sucesso!';
-      this.msgError = 'Erro ao Atualizar Curso, Tente Novamente!';
+      this.msgSuccess = 'Course Updated Successfully!';
+      this.msgError = 'Error Refresh Course, Try Again!';
     }
   }
 

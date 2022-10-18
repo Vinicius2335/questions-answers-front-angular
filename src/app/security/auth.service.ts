@@ -17,12 +17,6 @@ export class AuthService {
 
   private static authSubject = new BehaviorSubject<boolean>(false);
 
-  // TODO: NAO SEI PRA QUE SERVE
-  private static apiSubject = new BehaviorSubject<boolean>(
-    (localStorage.getItem('api') || 'local') == 'local' ? false : true
-  );
-  public api = localStorage.getItem('api') || 'local';
-
   constructor(
     private http: HttpClient,
     private toastrService: ToastrService,
@@ -74,27 +68,6 @@ export class AuthService {
   // Usado no guard para verificar se o usuário está logado,
   static authAsObservable(): Observable<boolean> {
     return AuthService.authSubject.asObservable();
-  }
-
-  // TODO: NAO SEI PRA QUE SERVE
-  static emitAuth(): void {
-    let val = false;
-    const api = localStorage.getItem('api') || 'local';
-    if (api !== 'local') { // enabled
-      val = localStorage.getItem('token') ? true : false;
-    } else val = true;
-    AuthService.authSubject.next(val);
-  }
-
-  // TODO: NAO SEI PRA QUE SERVE
-  static emitApi(): void {
-    const val = (localStorage.getItem('api') || 'local') == 'local' ? false : true;
-    AuthService.apiSubject.next(val);
-  }
-
-  // TODO: NAO SEI PRA QUE SERVE
-  static apiAsObservable(): Observable<boolean> {
-    return AuthService.apiSubject.asObservable();
   }
 
 }

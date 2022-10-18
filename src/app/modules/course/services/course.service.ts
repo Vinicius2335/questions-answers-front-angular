@@ -12,10 +12,7 @@ export class CourseService {
   constructor(private http: HttpClient) { }
 
   getListCourse(){
-    return this.http.get<Course[]>(`${this.API_URL}/list?name=`).pipe(
-      first(),
-      tap((t) => console.log('t :>> ', t))
-    );
+    return this.http.get<Course[]>(`${this.API_URL}/list?name=`).pipe(first());
   }
 
   findById(id: number){
@@ -36,6 +33,10 @@ export class CourseService {
     } else {
       return this.insertCourse(course);
     }
+  }
+
+  deleteCourse(id: number){
+    return this.http.delete(`${this.API_URL}/${id}`).pipe(first());
   }
 
 }
