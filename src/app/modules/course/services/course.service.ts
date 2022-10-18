@@ -18,13 +18,24 @@ export class CourseService {
     );
   }
 
-  // NOTE: PAREI AKI
-  insertCourse(course: Partial<Course>){
+  findById(id: number){
+    return this.http.get<Course>(`${this.API_URL}/${id}`).pipe(first());
+  }
+
+  private insertCourse(course: Partial<Course>){
     return this.http.post(this.API_URL, {name: course.name}).pipe(first());
   }
 
-  findById(id: number){
-    return this.http.get<Course>(`${this.API_URL}/${id}`).pipe(first());
+  private updatedCourse(id: number, course: Partial<Course>){
+    return this.http.put(`${this.API_URL}/${id}`, {name: course.name}).pipe(first());
+  }
+
+  saveCourse(course: Partial<Course>){
+    if (course.idCourse != 0 && course.idCourse != null){
+      return this.updatedCourse(course.idCourse, course);
+    } else {
+      return this.insertCourse(course);
+    }
   }
 
 }

@@ -4,7 +4,8 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CourseService } from '../services/course.service';
 import { ToastrService } from 'ngx-toastr';
 import { Course } from 'src/app/util/models/courses';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { CourseFormService } from '../components/course-form/services/course-form.service';
 
 @Component({
   selector: 'app-course',
@@ -22,7 +23,8 @@ export class CourseComponent implements OnInit {
   constructor(
     private courseService: CourseService,
     private toaster: ToastrService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private courseFormService: CourseFormService
   ) {
     this.refresh();
 
@@ -60,6 +62,19 @@ export class CourseComponent implements OnInit {
     this.modalRef = this.modalService.show(
       CourseFormComponent,
       Object.assign({})
+    );
+  }
+
+  onEdit(course: Course){
+    const initialState:  ModalOptions = {
+      initialState: {
+        course: course
+      }
+    }
+    // this.courseFormService.showSaveDialog(initialState);
+    this.modalRef = this.modalService.show(
+      CourseFormComponent,
+      initialState
     );
   }
 }
