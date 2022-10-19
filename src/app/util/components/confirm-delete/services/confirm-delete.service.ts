@@ -13,5 +13,6 @@ export class ConfirmDeleteService {
       ConfirmDeleteComponent,
       initialState
     );
+    return bsModalRef;
   }
 }

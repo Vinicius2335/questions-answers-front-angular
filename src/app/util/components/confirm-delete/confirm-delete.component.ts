@@ -1,47 +1,31 @@
-import { ToastrService } from 'ngx-toastr';
-import { Course } from './../../models/courses';
-import { CourseService } from './../../../modules/course/services/course.service';
-import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Component, OnInit } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-confirm-delete',
   templateUrl: './confirm-delete.component.html',
-  styleUrls: ['./confirm-delete.component.scss']
+  styleUrls: ['./confirm-delete.component.scss'],
 })
 export class ConfirmDeleteComponent implements OnInit {
-  private static dialogSubject = new BehaviorSubject<boolean>(false);
-  course!: Course;
+  private static confirmSubject = new BehaviorSubject<boolean>(false);
+  name!: string;
 
   constructor(
     public bsModalRef: BsModalRef,
-    private courseService: CourseService,
-    private toastrService :ToastrService
-    ) { }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  onCancel(){
+  onCancel() {
     this.bsModalRef.hide();
   }
 
-  onConfirm(){
-    this.courseService.deleteCourse(this.course.idCourse).subscribe({
-      next: () => this.toastrService.success('Successfully Deleted Course!'),
-      error: () => this.toastrService.error('Error Deleting Course, Try Again!'),
-      complete: () => {
-        ConfirmDeleteComponent.dialogSubject.next(true);
-        this.bsModalRef.hide();
-      }
-    });
+  onConfirm() {
+    ConfirmDeleteComponent.confirmSubject.next(true);
   }
 
-  static authAsObservable(): Observable<boolean> {
-    return this.dialogSubject.asObservable();
+  static confirmAsObservable(): Observable<boolean> {
+    return this.confirmSubject.asObservable();
   }
-
 }
-
-// TODO: deixar o dialog genérico

@@ -38,14 +38,6 @@ export class CourseComponent implements OnInit {
         }
       }
     );
-
-    ConfirmDeleteComponent.authAsObservable().subscribe(
-      (isDeleteConfirm: boolean) => {
-        if (isDeleteConfirm) {
-          this.refresh();
-        }
-      }
-    );
   }
 
   refresh() {
@@ -84,14 +76,32 @@ export class CourseComponent implements OnInit {
     this.modalRef = this.modalService.show(CourseFormComponent, initialState);
   }
 
-  onDelete(course: Course){
+  onDelete(course: Course) {
     const initialState: ModalOptions = {
       initialState: {
-        course: course,
-        class: 'modal-sm'
+        name: course.name,
+        class: 'modal-sm',
       },
     };
-    this.confirmDeleteService.showConfirmDialog(initialState);
-  }
+    const bsModalRef: BsModalRef =
+      this.confirmDeleteService.showConfirmDialog(initialState);
 
+    ConfirmDeleteComponent.confirmAsObservable().subscribe(
+      (isConfirm: boolean) => {
+        if (isConfirm) {
+          console.log(course);
+          this.courseService.deleteCourse(course.idCourse).subscribe({
+            next: () =>
+              this.toaster.success('Successfully Deleted Course!'),
+            error: () =>
+              this.toaster.error('Error Deleting Course, Try Again!'),
+            complete: () => {
+              bsModalRef.hide();
+              this.refresh();
+            },
+          });
+        }
+      }
+    );
+  }
 }
