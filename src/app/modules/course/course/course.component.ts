@@ -1,7 +1,8 @@
+import { Router } from '@angular/router';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, EMPTY, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, Observable, Subject } from 'rxjs';
 import { Course } from 'src/app/util/models/courses';
 
 import { CourseService } from '../services/course.service';
@@ -26,7 +27,8 @@ export class CourseComponent implements OnInit {
     private courseService: CourseService,
     private toaster: ToastrService,
     private modalService: BsModalService,
-    private confirmDeleteService: ConfirmDeleteService
+    private confirmDeleteService: ConfirmDeleteService,
+    private router: Router
   ) {
     this.refresh();
 
@@ -103,5 +105,10 @@ export class CourseComponent implements OnInit {
         }
       }
     );
+  }
+
+  onQuestion(course: Course){
+    this.courseService.courseIdSubject.next(course.idCourse);
+    this.router.navigate([`professor/course/question`]);
   }
 }

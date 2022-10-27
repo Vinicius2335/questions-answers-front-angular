@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { first, tap } from 'rxjs';
+import { BehaviorSubject, first, Observable, tap } from 'rxjs';
 import { Course } from 'src/app/util/models/courses';
 
 @Injectable({
@@ -8,6 +8,7 @@ import { Course } from 'src/app/util/models/courses';
 })
 export class CourseService {
   private readonly API_URL = 'http://localhost:8080/api/professor/course';
+  public courseIdSubject = new BehaviorSubject<number>(0);
 
   constructor(private http: HttpClient) { }
 
@@ -37,6 +38,10 @@ export class CourseService {
 
   deleteCourse(id: number){
     return this.http.delete(`${this.API_URL}/${id}`).pipe(first());
+  }
+
+  courseIdAsObservable(): Observable<number> {
+    return this.courseIdSubject.asObservable();
   }
 
 }
