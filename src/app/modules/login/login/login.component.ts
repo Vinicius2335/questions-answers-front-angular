@@ -1,6 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AuthService } from 'src/app/security/auth.service';
 import { AuthLoginInfo } from 'src/app/security/models/auth-login-info';
@@ -21,14 +20,12 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
     private auth: AuthService,
     private modalService: BsModalService
   ) {
 
     AuthService.authAsObservable().subscribe(
-      (response) => {
+      () => {
         this.modalRef?.hide();
       }
     );

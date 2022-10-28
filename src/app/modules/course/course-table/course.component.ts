@@ -33,7 +33,7 @@ export class CourseComponent implements OnInit {
     this.refresh();
 
     // atualiza a lista de cursos apos salvar/atualizar curso for um sucesso
-    CourseFormComponent.authAsObservable().subscribe(
+    CourseFormComponent.courseFormAsObservable().subscribe(
       (isSavedSuccessful: boolean) => {
         if (isSavedSuccessful) {
           this.refresh();
@@ -93,8 +93,7 @@ export class CourseComponent implements OnInit {
         if (isConfirm) {
           console.log(course);
           this.courseService.deleteCourse(course.idCourse).subscribe({
-            next: () =>
-              this.toaster.success('Successfully Deleted Course!'),
+            next: () => this.toaster.success('Successfully Deleted Course!'),
             error: () =>
               this.toaster.error('Error Deleting Course, Try Again!'),
             complete: () => {
@@ -107,7 +106,7 @@ export class CourseComponent implements OnInit {
     );
   }
 
-  onQuestion(course: Course){
+  onQuestion(course: Course) {
     this.courseService.courseIdSubject.next(course.idCourse);
     this.router.navigate([`professor/course/question`]);
   }

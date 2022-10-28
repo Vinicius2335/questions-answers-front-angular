@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, NonNullableFormBuilder, Validators } from '@angular/forms';
+import {
+  FormControl,
+  NonNullableFormBuilder,
+  Validators,
+} from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Course } from 'src/app/util/models/courses';
 import { CourseService } from '../../services/course.service';
-
 
 @Component({
   selector: 'app-course-form',
@@ -19,8 +22,8 @@ export class CourseFormComponent implements OnInit {
 
   course: Partial<Course> = {
     idCourse: 0,
-    name: ''
-  }
+    name: '',
+  };
 
   form = this.formBuilder.group({
     idCourse: [0, [Validators.required]],
@@ -31,11 +34,11 @@ export class CourseFormComponent implements OnInit {
     private formBuilder: NonNullableFormBuilder,
     private courseService: CourseService,
     private toastr: ToastrService,
-    public bsModalRef: BsModalRef,
+    public bsModalRef: BsModalRef
   ) {}
 
   ngOnInit(): void {
-    if (this.course.idCourse != null && this.course.name != null){
+    if (this.course.idCourse != null && this.course.name != null) {
       this.form.controls.idCourse.setValue(this.course.idCourse);
       this.form.controls.name.setValue(this.course.name);
     }
@@ -68,7 +71,7 @@ export class CourseFormComponent implements OnInit {
     }
   }
 
-  static authAsObservable(): Observable<boolean> {
+  static courseFormAsObservable(): Observable<boolean> {
     return this.dialogSubject.asObservable();
   }
 }

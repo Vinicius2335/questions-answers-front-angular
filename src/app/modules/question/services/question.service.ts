@@ -4,41 +4,49 @@ import { Injectable } from '@angular/core';
 import { first, tap } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class QuestionService {
-  private readonly API_URL = 'http://localhost:8080/api/professor/course/question';
+  private readonly API_URL =
+    'http://localhost:8080/api/professor/course/question';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getListQuestions(idCourse: number){
-    return this.http.get<Question[]>(`${this.API_URL}/list/${idCourse}/?title=`).pipe(
-      tap(console.log),
-      first());
+  getListQuestions(idCourse: number) {
+    return this.http
+      .get<Question[]>(`${this.API_URL}/list/${idCourse}/?title=`)
+      .pipe(first());
   }
 
   // findById(id: number){
   //   return this.http.get<Question>(`${this.API_URL}/${id}`).pipe(first());
   // }
 
-  // private insertQuestion(question: Partial<Question>){
-  //   return this.http.post(this.API_URL, {name: question.name}).pipe(first());
-  // }
+  private insertQuestion(question: Partial<Question>) {
+    return this.http
+      .post(this.API_URL, { title: question.title, course: question.course })
+      .pipe(first());
+  }
 
-  // private updatedCourse(id: number, question: Partial<Question>){
-  //   return this.http.put(`${this.API_URL}/${id}`, {name: course.name}).pipe(first());
-  // }
+  // TODO: parametro id removido
+  private updatedCourse(question: Partial<Question>) {
+    return this.http
+      .put(`${this.API_URL}/${question.idQuestion}`, {
+        title: question.title,
+        course: question.course,
+      })
+      .pipe(first());
+  }
 
-  // saveQuestion(question: Partial<Question>){
-  //   if (course.idCourse != 0 && course.idCourse != null){
-  //     return this.updatedCourse(course.idCourse, course);
-  //   } else {
-  //     return this.insertCourse(course);
-  //   }
-  // }
+  saveQuestion(question: Partial<Question>) {
+    if (question.idQuestion != 0 && question.idQuestion != null) {
+      return this.updatedCourse(question);
+    } else {
+      return this.insertQuestion(question);
+    }
+  }
 
-  // deleteQuestion(id: number){
-  //   return this.http.delete(`${this.API_URL}/${id}`).pipe(first());
-  // }
-
+  deleteQuestion(id: number){
+    return this.http.delete(`${this.API_URL}/${id}`).pipe(first());
+  }
 }

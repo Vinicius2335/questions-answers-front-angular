@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+
 import { ConfirmDeleteComponent } from '../confirm-delete.component';
 
 @Injectable({
