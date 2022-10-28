@@ -1,8 +1,8 @@
-import { Router } from '@angular/router';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, catchError, EMPTY, Observable, Subject } from 'rxjs';
+import { catchError, EMPTY, Observable, Subject } from 'rxjs';
 import { Course } from 'src/app/util/models/courses';
 
 import { CourseService } from '../services/course.service';

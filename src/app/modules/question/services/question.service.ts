@@ -1,7 +1,7 @@
 import { Question } from './../../../util/models/questions';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { first, tap } from 'rxjs';
+import { first, tap, BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +9,8 @@ import { first, tap } from 'rxjs';
 export class QuestionService {
   private readonly API_URL =
     'http://localhost:8080/api/professor/course/question';
+
+  public questionIdSubject = new BehaviorSubject<number>(0);
 
   constructor(private http: HttpClient) {}
 
@@ -18,9 +20,9 @@ export class QuestionService {
       .pipe(first());
   }
 
-  // findById(id: number){
-  //   return this.http.get<Question>(`${this.API_URL}/${id}`).pipe(first());
-  // }
+  findById(id: number){
+    return this.http.get<Question>(`${this.API_URL}/${id}`).pipe(first());
+  }
 
   private insertQuestion(question: Partial<Question>) {
     return this.http
@@ -28,7 +30,6 @@ export class QuestionService {
       .pipe(first());
   }
 
-  // TODO: parametro id removido
   private updatedCourse(question: Partial<Question>) {
     return this.http
       .put(`${this.API_URL}/${question.idQuestion}`, {
@@ -48,5 +49,9 @@ export class QuestionService {
 
   deleteQuestion(id: number){
     return this.http.delete(`${this.API_URL}/${id}`).pipe(first());
+  }
+
+  questionIdObservable(): Observable<number> {
+    return this.questionIdSubject.asObservable();
   }
 }

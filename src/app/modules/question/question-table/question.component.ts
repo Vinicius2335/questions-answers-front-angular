@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
@@ -31,6 +32,7 @@ export class QuestionComponent implements OnInit {
     private toaster: ToastrService,
     private modalService: BsModalService,
     private confirmDeleteService: ConfirmDeleteService,
+    private router: Router
   ) {
     this.courseService.courseIdAsObservable().subscribe((response: number) => {
       this.id = response;
@@ -117,7 +119,12 @@ export class QuestionComponent implements OnInit {
     );
 
   }
-  
+
+  onChoice(question: Question) {
+    this.questionService.questionIdSubject.next(question.idQuestion);
+    this.router.navigate([`professor/course/question/choice`]);
+  }
+
 }
 
 // TODO: CHOICE -> TABLE/ NEW/ EDIT

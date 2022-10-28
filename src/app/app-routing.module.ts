@@ -30,6 +30,12 @@ const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'professor/course/question/choice',
+    loadChildren: () =>
+      import('./modules/choice/choice.module').then((m) => m.ChoiceModule),
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
