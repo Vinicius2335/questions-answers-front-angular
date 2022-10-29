@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, delay, Observable } from 'rxjs';
 
 import { AuthLoginInfo } from './models/auth-login-info';
 import { JwtDecoder } from './models/jwt-decoder';
@@ -30,6 +30,7 @@ export class AuthService {
         localStorage.setItem('token', response);
         this.decodedToken = this.jwtService.decodeToken(response);
         AuthService.authSubject.next(true);
+        delay(5000);
         this.router.navigate(['/professor']);
       },
       error: (e) => {
