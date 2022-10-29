@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, EMPTY, Observable, Subject } from 'rxjs';
+import { catchError, EMPTY, Observable, of, Subject } from 'rxjs';
 import { Course } from 'src/app/util/models/courses';
 
 import { CourseService } from '../services/course.service';
@@ -17,7 +17,6 @@ import { CourseFormComponent } from './../components/course-form/course-form.com
 })
 export class CourseComponent implements OnInit {
   courses$!: Observable<Course[]>;
-  error$ = new Subject<boolean>();
 
   //spinner
   modalRef?: BsModalRef;
@@ -46,9 +45,8 @@ export class CourseComponent implements OnInit {
     this.courses$ = this.courseService.getListCourse().pipe(
       catchError(() => {
         this.modalRef?.hide();
-        this.error$.next(true);
         this.toaster.error('Unable to load the courses list');
-        return EMPTY;
+        return of([]);
       })
     );
   }
