@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, first, tap } from 'rxjs';
+import { BehaviorSubject, first, Observable, tap } from 'rxjs';
 import { Choice } from 'src/app/util/models/choice';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChoiceService {
   private readonly API_URL =
@@ -17,41 +17,46 @@ export class ChoiceService {
   getListChoices(idQuestion: number) {
     return this.http
       .get<Choice[]>(`${this.API_URL}/list/${idQuestion}`)
-      .pipe(tap(console.log), first());
+      .pipe(first());
   }
 
-  // findById(id: number){
-  //   return this.http.get<Question>(`${this.API_URL}/${id}`).pipe(first());
-  // }
+  findById(id: number) {
+    return this.http.get<Choice>(`${this.API_URL}/${id}`).pipe(first());
+  }
 
-  // private insertQuestion(question: Partial<Question>) {
-  //   return this.http
-  //     .post(this.API_URL, { title: question.title, course: question.course })
-  //     .pipe(first());
-  // }
+  private insertChoice(choice: Partial<Choice>) {
+    return this.http
+      .post(this.API_URL, {
+        title: choice.title,
+        question: choice.question,
+        correctAnswer: choice.correctAnswer,
+      })
+      .pipe(first());
+  }
 
-  // private updatedCourse(question: Partial<Question>) {
-  //   return this.http
-  //     .put(`${this.API_URL}/${question.idQuestion}`, {
-  //       title: question.title,
-  //       course: question.course,
-  //     })
-  //     .pipe(first());
-  // }
+  private updatedChoice(choice: Partial<Choice>) {
+    return this.http
+      .put(`${this.API_URL}/${choice.idChoice}`, {
+        title: choice.title,
+        question: choice.question,
+        correctAnswer: choice.correctAnswer,
+      })
+      .pipe(first());
+  }
 
-  // saveQuestion(question: Partial<Question>) {
-  //   if (question.idQuestion != 0 && question.idQuestion != null) {
-  //     return this.updatedCourse(question);
-  //   } else {
-  //     return this.insertQuestion(question);
-  //   }
-  // }
+  saveChoice(choice: Partial<Choice>) {
+    if (choice.idChoice != 0 && choice.idChoice != null) {
+      return this.updatedChoice(choice);
+    } else {
+      return this.insertChoice(choice);
+    }
+  }
 
-  // deleteQuestion(id: number){
-  //   return this.http.delete(`${this.API_URL}/${id}`).pipe(first());
-  // }
+  deleteChoice(id: number){
+    return this.http.delete(`${this.API_URL}/${id}`).pipe(first());
+  }
 
-  // questionIdObservable(): Observable<number> {
-  //   return this.questionIdSubject.asObservable();
-  // }
+  choiceIdObservable(): Observable<number> {
+    return this.choiceIdSubject.asObservable();
+  }
 }

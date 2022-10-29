@@ -1,11 +1,14 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, Observable, of } from 'rxjs';
+import { ConfirmDeleteComponent } from 'src/app/util/components/confirm-delete/confirm-delete.component';
+import { ConfirmDeleteService } from 'src/app/util/components/confirm-delete/services/confirm-delete.service';
 import { Choice } from 'src/app/util/models/choice';
 import { Question } from 'src/app/util/models/questions';
 
+import { ChoiceFormComponent } from '../components/choice-form/choice-form.component';
 import { QuestionService } from './../../question/services/question.service';
 import { ChoiceService } from './../services/choice.service';
 
@@ -27,10 +30,19 @@ export class ChoiceComponent implements OnInit {
     private choiceService: ChoiceService,
     private toaster: ToastrService,
     private modalService: BsModalService,
+    private confirmDeleteService: ConfirmDeleteService
   ) {
     this.questionService.questionIdObservable().subscribe((response: number) => {
       this.questionId = response;
     });
+
+    ChoiceFormComponent.choiceFormAsObservable().subscribe(
+      (isSavedSuccessful: boolean) => {
+        if (isSavedSuccessful) {
+          this.refresh();
+        }
+      }
+    );
    }
 
   ngOnInit(): void {
@@ -52,15 +64,57 @@ export class ChoiceComponent implements OnInit {
     );
   }
 
-  // NOTE: Não esquecer de implementar os botoes depois
-  onNew(){}
+  onNew(){
+    const initialState: ModalOptions = {
+      initialState: {
+        question: this.question,
+      },
+    };
+    this.modalRef = this.modalService.show(ChoiceFormComponent, initialState);
+  }
 
-  onEdit(choice: Choice) {}
+  onEdit(choiceToEdit: Choice) {
+    const initialState: ModalOptions = {
+      initialState: {
+        question: this.question,
+        choice: choiceToEdit
+      },
+    };
+    this.modalRef = this.modalService.show(ChoiceFormComponent, initialState);
+  }
 
-  onDelete(choice: Choice) {}
+  onDelete(choice: Choice) {
+    const initialState: ModalOptions = {
+      initialState: {
+        name: choice.title,
+        class: 'modal-sm',
+      },
+    };
+    const bsModalRef: BsModalRef =
+      this.confirmDeleteService.showConfirmDialog(initialState);
+
+    ConfirmDeleteComponent.confirmAsObservable().subscribe(
+      (isConfirm: boolean) => {
+        if (isConfirm) {
+          console.log(choice);
+          this.choiceService.deleteChoice(choice.idChoice).subscribe({
+            next: () => this.toaster.success('Successfully Deleted Choice!'),
+            error: () =>
+              this.toaster.error('Error Deleting Choice, Try Again!'),
+            complete: () => {
+              bsModalRef.hide();
+              this.refresh();
+            },
+          });
+        }
+      }
+    );
+  }
 
   onCancel(){
     this.location.back();
   }
 
 }
+
+// TODO: e se deletarem a questão certa?

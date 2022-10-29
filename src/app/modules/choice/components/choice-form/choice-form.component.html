@@ -1,0 +1,33 @@
+<div class="modal-content">
+  <div class="modal-header bg-dark text-white">
+    <h2 class="modal-title pull-left">Save Choice</h2>
+  </div>
+  <div class="modal-body bg-dark">
+    <form [formGroup]="form">
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="inputChoiceTitle" placeholder="Title" formControlName="title">
+        <label for="inputChoiceTitle">Title</label>
+      </div>
+
+      <label class="mt-3 text-white">Correct Answer</label>
+      <div class="form-check text-white">
+        <input class="form-check-input" formControlName="correctAnswer" type="radio"  id="flexRadioDisabled" value="true">
+        <label class="form-check-label" for="flexRadioDisabled">
+          True
+        </label>
+      </div>
+      <div class="form-check text-white">
+        <input class="form-check-input" formControlName="correctAnswer" type="radio"  id="flexRadioCheckedDisabled" value="false" checked>
+        <label class="form-check-label" for="flexRadioCheckedDisabled">
+          False
+        </label>
+      </div>
+
+    </form>
+  </div>
+  <div class="modal-footer bg-dark">
+    <button type="button" class="btn btn-warning" data-bs-dismiss="modal"
+    (click)="onCancel()">Cancel</button>
+    <button type="button" class="btn btn-success" (click)="onSubmit()">Submit</button>
+  </div>
+</div>

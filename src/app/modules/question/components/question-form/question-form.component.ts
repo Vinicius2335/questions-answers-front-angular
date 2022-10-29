@@ -17,7 +17,6 @@ export class QuestionFormComponent implements OnInit {
   private msgSuccess!: string;
   private msgError!: string;
   course!: Course;
-  
 
   question: Partial<Question> = {
     idQuestion: 0,
@@ -49,8 +48,6 @@ export class QuestionFormComponent implements OnInit {
 
     let question: Partial<Question> = this.form.value;
     question.course = this.course;
-
-    console.log(question);
 
     this.questionService.saveQuestion(question).subscribe({
       next: () => {
