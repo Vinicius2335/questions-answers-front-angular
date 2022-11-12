@@ -1,0 +1,7 @@
+.table>:not(:last-child)>:last-child>* {
+  border-bottom-color: green;
+}
+
+#btn-new {
+  border-radius: 50%;
+}

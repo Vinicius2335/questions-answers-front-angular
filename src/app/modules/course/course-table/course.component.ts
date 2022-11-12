@@ -108,4 +108,9 @@ export class CourseComponent implements OnInit {
     this.courseService.courseIdSubject.next(course.idCourse);
     this.router.navigate([`professor/course/question`]);
   }
+
+  onAssignment(course: Course){
+    this.courseService.courseSubject.next(course);
+    this.router.navigate([`professor/course/assignment`]);
+  }
 }

@@ -9,6 +9,8 @@ import { Course } from 'src/app/util/models/courses';
 export class CourseService {
   private readonly API_URL = 'http://localhost:8080/api/professor/course';
   public courseIdSubject = new BehaviorSubject<number>(0);
+  course!: Course;
+  public courseSubject = new BehaviorSubject<Course>(this.course);
 
   constructor(private http: HttpClient) { }
 
@@ -42,6 +44,10 @@ export class CourseService {
 
   courseIdAsObservable(): Observable<number> {
     return this.courseIdSubject.asObservable();
+  }
+
+  courseAsObservable(): Observable<Course>{
+    return this.courseSubject.asObservable();
   }
 
 }
