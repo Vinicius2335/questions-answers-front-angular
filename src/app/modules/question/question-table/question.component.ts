@@ -12,6 +12,7 @@ import { Question } from '../../../util/models/questions';
 import { CourseService } from '../../course/services/course.service';
 import { QuestionFormComponent } from '../components/question-form/question-form.component';
 import { QuestionService } from '../services/question.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-question',
@@ -23,6 +24,7 @@ export class QuestionComponent implements OnInit {
   questions$!: Observable<Question[]>;
   courseName: string = '';
   modalRef?: BsModalRef;
+  searchField = new FormControl();
 
   constructor(
     private courseService: CourseService,
@@ -57,6 +59,17 @@ export class QuestionComponent implements OnInit {
       catchError(() => {
         this.modalRef?.hide();
         this.toaster.error('Question list is empty');
+        return of([]);
+      })
+    );
+  }
+
+  onSearch(){
+    let value = this.searchField.value;
+    this.questions$ = this.questionService.findByTitleQuestions(this.course.idCourse, value).pipe(
+      catchError(() => {
+        this.modalRef?.hide();
+        this.toaster.error('Question Not Found');
         return of([]);
       })
     );

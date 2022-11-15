@@ -11,6 +11,7 @@ import { AssignmentService } from '../services/assignment.service';
 import { Course } from './../../../util/models/courses';
 import { CourseService } from './../../course/services/course.service';
 import { ConfirmDeleteComponent } from 'src/app/util/components/confirm-delete/confirm-delete.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-assignment-table',
@@ -22,6 +23,7 @@ export class AssignmentTableComponent implements OnInit {
   courseName = '';
   assignment$!: Observable<Assignment[]>;
   modalRef?: BsModalRef;
+  searchField = new FormControl();
 
   constructor(
     private couseService: CourseService,
@@ -60,6 +62,17 @@ export class AssignmentTableComponent implements OnInit {
           return of([]);
         })
       );
+  }
+
+  onSearch(){
+    let value = this.searchField.value;
+    this.assignment$ = this.assignmentService.findByTitleAssignments(this.course.idCourse, value).pipe(
+      catchError(() => {
+        this.modalRef?.hide();
+        this.toaster.error('Assignment Not Found');
+        return of([]);
+      })
+    );
   }
 
   onNew() {

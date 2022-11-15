@@ -1,4 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
@@ -17,6 +18,7 @@ import { CourseFormComponent } from './../components/course-form/course-form.com
 })
 export class CourseComponent implements OnInit {
   courses$!: Observable<Course[]>;
+  searchField = new FormControl();
 
   //spinner
   modalRef?: BsModalRef;
@@ -52,6 +54,17 @@ export class CourseComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  onSearch(){
+    let value = this.searchField.value;
+    this.courses$ = this.courseService.findByNameCourses(value).pipe(
+      catchError(() => {
+        this.modalRef?.hide();
+        this.toaster.error('Course Not Found');
+        return of([]);
+      })
+    );
+  }
 
   openModal() {
     this.modalRef = this.modalService.show(

@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, Observable, of } from 'rxjs';
@@ -22,6 +23,7 @@ export class ChoiceComponent implements OnInit {
   question!: Question;
   choices$!: Observable<Choice[]>;
   modalRef?: BsModalRef;
+  searchField = new FormControl();
 
   constructor(
     private questionService: QuestionService,
@@ -55,6 +57,17 @@ export class ChoiceComponent implements OnInit {
       catchError(() => {
         this.modalRef?.hide();
         this.toaster.error('Choice list is empty');
+        return of([]);
+      })
+    );
+  }
+
+  onSearch(){
+    let value = this.searchField.value;
+    this.choices$ = this.choiceService.findByTitleChoices(this.question.idQuestion, value).pipe(
+      catchError(() => {
+        this.modalRef?.hide();
+        this.toaster.error('Choice Not Found');
         return of([]);
       })
     );

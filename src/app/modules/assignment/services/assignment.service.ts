@@ -19,6 +19,12 @@ export class AssignmentService {
       .pipe(tap(console.log), first());
   }
 
+  findByTitleAssignments(idCourse: number, title: string) {
+    return this.http
+      .get<Assignment[]>(`${this.API_URL}/list/${idCourse}/?title=${title}`)
+      .pipe(tap(console.log), first());
+  }
+
   // findById(id: number) {
   //   return this.http.get<Choice>(`${this.API_URL}/${id}`).pipe(first());
   // }

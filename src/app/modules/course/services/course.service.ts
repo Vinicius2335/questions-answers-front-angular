@@ -17,6 +17,10 @@ export class CourseService {
     return this.http.get<Course[]>(`${this.API_URL}/list?name=`).pipe(first());
   }
 
+  findByNameCourses(name: string) {
+    return this.http.get<Course[]>(`${this.API_URL}/list?name=${name}`).pipe(first());
+  }
+
   findById(id: number) {
     return this.http.get<Course>(`${this.API_URL}/${id}`).pipe(first());
   }

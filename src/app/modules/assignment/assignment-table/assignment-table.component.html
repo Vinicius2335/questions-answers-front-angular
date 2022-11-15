@@ -9,7 +9,23 @@
     align-middle
     caption-top" *ngIf="assignment$ |async as assignments; else loading">
       <caption class="mb-0">
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+        <div class="d-grid d-md-flex justify-content-md-between align-items-center mt-3">
+          <div class="row">
+            <div class="input-group col-auto">
+              <input type="text" class="form-control" placeholder="Search" id="searchInput"
+                     aria-label="Search" aria-describedby="button-addon"
+                     [formControl]="searchField">
+              <button class="btn btn-outline-secondary" type="button" id="button-addon"
+                      (click)="onSearch()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-search" viewBox="0 0 16 16">
+                  <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
           <button id="btn-new" class="btn btn-success mb-0 d-md-flex align-items-md-center"
                   (click)="onNew()">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"

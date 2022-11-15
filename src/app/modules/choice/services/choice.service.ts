@@ -20,6 +20,12 @@ export class ChoiceService {
       .pipe(first());
   }
 
+  findByTitleChoices(idQuestion: number, title: string) {
+    return this.http
+      .get<Choice[]>(`${this.API_URL}/list/${idQuestion}/?title=${title}`)
+      .pipe(first());
+  }
+
   findById(id: number) {
     return this.http.get<Choice>(`${this.API_URL}/${id}`).pipe(first());
   }

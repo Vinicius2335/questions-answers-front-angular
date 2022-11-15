@@ -21,6 +21,12 @@ export class QuestionService {
       .pipe(first());
   }
 
+  findByTitleQuestions(idCourse: number, title: string) {
+    return this.http
+      .get<Question[]>(`${this.API_URL}/list/${idCourse}/?title=${title}`)
+      .pipe(first());
+  }
+
   findById(id: number) {
     return this.http.get<Question>(`${this.API_URL}/${id}`).pipe(first());
   }
