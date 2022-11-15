@@ -20,7 +20,6 @@ import { QuestionService } from '../services/question.service';
 })
 export class QuestionComponent implements OnInit {
   course!: Course;
-  id!: number;
   questions$!: Observable<Question[]>;
   courseName: string = '';
   modalRef?: BsModalRef;
@@ -34,8 +33,8 @@ export class QuestionComponent implements OnInit {
     private confirmDeleteService: ConfirmDeleteService,
     private router: Router
   ) {
-    this.courseService.courseIdAsObservable().subscribe((response: number) => {
-      this.id = response;
+    this.courseService.courseAsObservable().subscribe((response: Course) => {
+      this.course = response;
     });
 
     QuestionFormComponent.questionFormAsObservable().subscribe(
@@ -48,18 +47,13 @@ export class QuestionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.courseService.findById(this.id).subscribe((response: any) => {
-      this.course = response;
-      this.courseName = response.name;
-    });
+    this.courseName = this.course.name;
 
-    if (this.id != 0) {
-      this.refresh();
-    }
+    this.refresh();
   }
 
   refresh() {
-    this.questions$ = this.questionService.getListQuestions(this.id).pipe(
+    this.questions$ = this.questionService.getListQuestions(this.course.idCourse).pipe(
       catchError(() => {
         this.modalRef?.hide();
         this.toaster.error('Question list is empty');
@@ -85,7 +79,7 @@ export class QuestionComponent implements OnInit {
     const initialState: ModalOptions = {
       initialState: {
         course: this.course,
-        question: questionEdit
+        question: questionEdit,
       },
     };
     this.modalRef = this.modalService.show(QuestionFormComponent, initialState);
@@ -117,14 +111,12 @@ export class QuestionComponent implements OnInit {
         }
       }
     );
-
   }
 
   onChoice(question: Question) {
-    this.questionService.questionIdSubject.next(question.idQuestion);
+    this.questionService.questionSubject.next(question);
     this.router.navigate([`professor/course/question/choice`]);
   }
-
 }
 
 // TODO: CHOICE -> TABLE/ NEW/ EDIT

@@ -20,7 +20,6 @@ import { ChoiceService } from './../services/choice.service';
 export class ChoiceComponent implements OnInit {
   questionTitle = '';
   question!: Question;
-  questionId!: number;
   choices$!: Observable<Choice[]>;
   modalRef?: BsModalRef;
 
@@ -32,8 +31,8 @@ export class ChoiceComponent implements OnInit {
     private modalService: BsModalService,
     private confirmDeleteService: ConfirmDeleteService
   ) {
-    this.questionService.questionIdObservable().subscribe((response: number) => {
-      this.questionId = response;
+    this.questionService.questionObservable().subscribe((response: Question) => {
+      this.question = response;
     });
 
     ChoiceFormComponent.choiceFormAsObservable().subscribe(
@@ -46,16 +45,13 @@ export class ChoiceComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.questionService.findById(this.questionId).subscribe((response: Question) => {
-      this.question = response;
-      this.questionTitle = response.title;
-    });
+    this.questionTitle = this.question.title;
 
     this.refresh();
   }
 
   refresh() {
-    this.choices$ = this.choiceService.getListChoices(this.questionId).pipe(
+    this.choices$ = this.choiceService.getListChoices(this.question.idQuestion).pipe(
       catchError(() => {
         this.modalRef?.hide();
         this.toaster.error('Choice list is empty');

@@ -9,8 +9,9 @@ import { first, tap, BehaviorSubject, Observable } from 'rxjs';
 export class QuestionService {
   private readonly API_URL =
     'http://localhost:8080/api/professor/course/question';
+  question!: Question;
 
-  public questionIdSubject = new BehaviorSubject<number>(0);
+  public questionSubject = new BehaviorSubject<Question>(this.question);
 
   constructor(private http: HttpClient) {}
 
@@ -20,7 +21,7 @@ export class QuestionService {
       .pipe(first());
   }
 
-  findById(id: number){
+  findById(id: number) {
     return this.http.get<Question>(`${this.API_URL}/${id}`).pipe(first());
   }
 
@@ -47,11 +48,11 @@ export class QuestionService {
     }
   }
 
-  deleteQuestion(id: number){
+  deleteQuestion(id: number) {
     return this.http.delete(`${this.API_URL}/${id}`).pipe(first());
   }
 
-  questionIdObservable(): Observable<number> {
-    return this.questionIdSubject.asObservable();
+  questionObservable(): Observable<Question> {
+    return this.questionSubject.asObservable();
   }
 }

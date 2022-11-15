@@ -1,0 +1,18 @@
+<div class="modal-content">
+  <div class="modal-header bg-dark text-white">
+    <h2 class="modal-title pull-left">Save assignment</h2>
+  </div>
+  <div class="modal-body bg-dark">
+    <form [formGroup]="form">
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="inputAssignmentTitle" placeholder="Title" formControlName="title">
+        <label for="inputAssignmentTitle">Title</label>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer bg-dark">
+    <button type="button" class="btn btn-warning" data-bs-dismiss="modal"
+    (click)="onCancel()">Cancel</button>
+    <button type="button" class="btn btn-success" (click)="onSubmit()">Submit</button>
+  </div>
+</div>
