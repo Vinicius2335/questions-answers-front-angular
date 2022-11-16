@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { first, tap } from 'rxjs';
+import { first, tap, BehaviorSubject, Observable } from 'rxjs';
 import { Assignment } from 'src/app/util/models/assignment';
 
 @Injectable({
@@ -10,6 +10,8 @@ export class AssignmentService {
 
   private readonly API_URL =
     'http://localhost:8080/api/professor/course/assignment';
+  assignment!: Assignment;
+  public assignmentSubject = new BehaviorSubject<Assignment>(this.assignment);
 
   constructor(private http: HttpClient) {}
 
@@ -57,6 +59,10 @@ export class AssignmentService {
 
   deleteAssignment(id: number){
     return this.http.delete(`${this.API_URL}/${id}`).pipe(first());
+  }
+
+  assignmentAsObservable(): Observable<Assignment>{
+    return this.assignmentSubject.asObservable();
   }
 
 }

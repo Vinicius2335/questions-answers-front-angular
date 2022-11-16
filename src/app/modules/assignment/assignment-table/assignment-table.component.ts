@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ConfirmDeleteService } from 'src/app/util/components/confirm-delete/services/confirm-delete.service';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
@@ -31,7 +32,8 @@ export class AssignmentTableComponent implements OnInit {
     private toaster: ToastrService,
     private modalService: BsModalService,
     private location: Location,
-    private confirmDeleteService: ConfirmDeleteService
+    private confirmDeleteService: ConfirmDeleteService,
+    private router: Router
   ) {
     this.couseService.courseAsObservable().subscribe((response: Course) => {
       this.course = response;
@@ -111,7 +113,6 @@ export class AssignmentTableComponent implements OnInit {
     ConfirmDeleteComponent.confirmAsObservable().subscribe(
       (isConfirm: boolean) => {
         if (isConfirm) {
-          console.log(assignmentToDelete);
           this.assignmentService.deleteAssignment(assignmentToDelete.idAssignment).subscribe({
             next: () => this.toaster.success('Successfully Deleted Assignment!'),
             error: () =>
@@ -124,6 +125,11 @@ export class AssignmentTableComponent implements OnInit {
         }
       }
     );
+  }
+
+  onExam(assignment: Assignment){
+    this.assignmentService.assignmentSubject.next(assignment);
+    this.router.navigate(['professor/course/assignment/question-assignment']);
   }
 
   onCancel() {

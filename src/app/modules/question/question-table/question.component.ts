@@ -132,4 +132,3 @@ export class QuestionComponent implements OnInit {
   }
 }
 
-// TODO: CHOICE -> TABLE/ NEW/ EDIT

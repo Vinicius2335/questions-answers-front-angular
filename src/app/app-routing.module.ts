@@ -39,7 +39,17 @@ const routes: Routes = [
   {
     path: 'professor/course/assignment',
     loadChildren: () =>
-      import('./modules/assignment/assignment.module').then((m) => m.AssignmentModule),
+      import('./modules/assignment/assignment.module').then(
+        (m) => m.AssignmentModule
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'professor/course/assignment/question-assignment',
+    loadChildren: () =>
+      import('./modules/question-assignment/question-assignment.module').then(
+        (m) => m.QuestionAssignmentModule
+      ),
     canActivate: [AuthGuard],
   },
 ];
