@@ -17,7 +17,7 @@ export class QuestionAssignmentService {
   listQuestions(idAssignment: number) {
     return this.http
       .get<QuestionAssignment[]>(`${this.API_URL}/list/${idAssignment}`)
-      .pipe(tap(console.log), first());
+      .pipe(first());
   }
 
   findQuestionsByCourseAndAssignment(courseId: number, assignmentId: number) {

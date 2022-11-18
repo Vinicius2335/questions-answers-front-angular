@@ -1,11 +1,12 @@
-import { AssignmentService } from './../../services/assignment.service';
-import { Assignment } from 'src/app/util/models/assignment';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Course } from 'src/app/util/models/courses';
-import { ToastrService } from 'ngx-toastr';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Assignment } from 'src/app/util/models/assignment';
+import { Course } from 'src/app/util/models/courses';
+
+import { AssignmentService } from './../../services/assignment.service';
 
 @Component({
   selector: 'app-assignment-form',
@@ -63,7 +64,7 @@ export class AssignmentFormComponent implements OnInit {
     });
   }
 
-   onCancel() {
+  onCancel() {
     this.bsModalRef.hide();
   }
 

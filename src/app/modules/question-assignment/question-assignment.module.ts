@@ -5,11 +5,13 @@ import { CommonModule } from '@angular/common';
 
 import { QuestionAssignmentRoutingModule } from './question-assignment-routing.module';
 import { QuestionAssignmentTableComponent } from './question-assignment-table/question-assignment-table.component';
+import { QuestionAssignmentFormComponent } from './components/question-assignment-form/question-assignment-form.component';
 
 
 @NgModule({
   declarations: [
-    QuestionAssignmentTableComponent
+    QuestionAssignmentTableComponent,
+    QuestionAssignmentFormComponent
   ],
   imports: [
     CommonModule,
