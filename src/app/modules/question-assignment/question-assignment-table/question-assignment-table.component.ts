@@ -26,6 +26,7 @@ export class QuestionAssignmentTableComponent implements OnInit {
   associateQuestionToAssignment$!: Observable<QuestionAssignment[]>;
   allQuestionsAssociated!: QuestionAssignment[];
   modalRef?: BsModalRef;
+  somaTodasGrades = 0;
 
   constructor(
     private assignmentService: AssignmentService,
@@ -66,6 +67,12 @@ export class QuestionAssignmentTableComponent implements OnInit {
           return of([]);
         })
       );
+
+      this.associateQuestionToAssignment$.subscribe((response: QuestionAssignment[]) => {
+        for (let question of response){
+          this.somaTodasGrades += question.grade;
+        }
+      });
   }
 
   onNew(){
@@ -123,17 +130,6 @@ export class QuestionAssignmentTableComponent implements OnInit {
         }
       }
     );
-  }
-
-  sumAllGrades(): number{
-    let soma = 0;
-
-    this.associateQuestionToAssignment$.subscribe((response: QuestionAssignment[]) => {
-      console.log(response.length);
-      soma = response.length
-    });
-
-    return soma;
   }
 
   onCancel() {
