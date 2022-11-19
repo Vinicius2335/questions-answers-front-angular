@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { first, tap } from 'rxjs';
+import { first } from 'rxjs';
 import { Question } from 'src/app/util/models/questions';
 
 import { QuestionAssignment } from './../../../util/models/question-assignment';
@@ -26,7 +26,9 @@ export class QuestionAssignmentService {
       .pipe(first());
   }
 
-  addQuestionAssignment(questionAssignment: Partial<QuestionAssignment>) {
+  private addQuestionAssignment(
+    questionAssignment: Partial<QuestionAssignment>
+  ) {
     return this.http
       .post(`${this.API_URL}`, {
         grade: questionAssignment.grade,
@@ -36,7 +38,32 @@ export class QuestionAssignmentService {
       .pipe(first());
   }
 
-  delete(questionAssignmentId: number){
-    return this.http.delete(`${this.API_URL}/${questionAssignmentId}`).pipe(first());
+  private updatedQuestionAssignment(
+    questionAssignment: Partial<QuestionAssignment>
+  ) {
+    return this.http
+      .put(`${this.API_URL}/${questionAssignment.idQuestionAssignment}`, {
+        grade: questionAssignment.grade,
+        question: questionAssignment.question,
+        assignment: questionAssignment.assignment,
+      })
+      .pipe(first());
+  }
+
+  saveQuestionAssignment(questionAssignment: Partial<QuestionAssignment>) {
+    if (
+      questionAssignment.idQuestionAssignment != 0 &&
+      questionAssignment.idQuestionAssignment != null
+    ) {
+      return this.updatedQuestionAssignment(questionAssignment);
+    } else {
+      return this.addQuestionAssignment(questionAssignment);
+    }
+  }
+
+  delete(questionAssignmentId: number) {
+    return this.http
+      .delete(`${this.API_URL}/${questionAssignmentId}`)
+      .pipe(first());
   }
 }

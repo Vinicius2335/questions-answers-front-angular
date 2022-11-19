@@ -1,4 +1,3 @@
-import { QuestionAssignmentFormComponent } from './../components/question-assignment-form/question-assignment-form.component';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
@@ -8,8 +7,12 @@ import { ConfirmDeleteComponent } from 'src/app/util/components/confirm-delete/c
 import { ConfirmDeleteService } from 'src/app/util/components/confirm-delete/services/confirm-delete.service';
 import { Assignment } from 'src/app/util/models/assignment';
 import { QuestionAssignment } from 'src/app/util/models/question-assignment';
+import { Question } from 'src/app/util/models/questions';
 
 import { AssignmentService } from '../../assignment/services/assignment.service';
+import {
+  QuestionAssignmentFormComponent,
+} from './../components/question-assignment-form/question-assignment-form.component';
 import { QuestionAssignmentService } from './../services/question-assignment.service';
 
 @Component({
@@ -21,7 +24,7 @@ export class QuestionAssignmentTableComponent implements OnInit {
   assignmentTitle = '';
   assignment!: Assignment;
   associateQuestionToAssignment$!: Observable<QuestionAssignment[]>;
-  
+  allQuestionsAssociated!: QuestionAssignment[];
   modalRef?: BsModalRef;
 
   constructor(
@@ -79,6 +82,21 @@ export class QuestionAssignmentTableComponent implements OnInit {
     );
   }
 
+  onEdit(questionAssignmentToEdit: QuestionAssignment){
+    const initialState: ModalOptions = {
+      initialState: {
+        assignment: this.assignment,
+        questionAssignment: questionAssignmentToEdit,
+        class: 'modal-sm'
+      },
+    };
+
+    this.modalRef = this.modalService.show(
+      QuestionAssignmentFormComponent,
+      initialState
+    );
+  }
+
 
   onDelete(questionAssignment: QuestionAssignment) {
     const initialState: ModalOptions = {
@@ -105,6 +123,17 @@ export class QuestionAssignmentTableComponent implements OnInit {
         }
       }
     );
+  }
+
+  sumAllGrades(): number{
+    let soma = 0;
+
+    this.associateQuestionToAssignment$.subscribe((response: QuestionAssignment[]) => {
+      console.log(response.length);
+      soma = response.length
+    });
+
+    return soma;
   }
 
   onCancel() {

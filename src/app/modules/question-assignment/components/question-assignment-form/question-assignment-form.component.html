@@ -8,7 +8,7 @@
 
         <div class="form-floating mb-3">
           <select class="form-select" id="floatingSelect" formControlName = "question">
-            <option selected>Select one question</option>
+            <option selected disabled value="">Select one question</option>
             <option *ngFor="let question of availableQuestions" [value]="question.title">
               {{ question.title }}
             </option>
