@@ -45,7 +45,8 @@
         <tr>
           <th>#</th>
           <th>Title</th>
-          <th>Correct Answer</th>
+          <th>Created At</th>
+          <th>Access Code</th>
           <th>Actions</th>
           <th>Exam</th>
         </tr>
@@ -56,6 +57,7 @@
           <td scope="row">{{ assignment.idAssignment }}</td>
           <td>{{ assignment.title }}</td>
           <td>{{ assignment.createdAt }}</td>
+          <td>{{ assignment.accessCode }}</td>
           <div class="d-grid gap-2 d-md-flex">
             <!-- Delete -->
             <button class="btn btn-outline-danger" (click)="onDelete(assignment)">

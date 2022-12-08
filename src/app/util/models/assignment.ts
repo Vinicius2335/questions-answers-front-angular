@@ -6,5 +6,6 @@ export interface Assignment {
   createdAt: Date,
   course: Course,
   professor: Professor,
-  enabled: boolean
+  enabled: boolean,
+  accessCode: String
 }
